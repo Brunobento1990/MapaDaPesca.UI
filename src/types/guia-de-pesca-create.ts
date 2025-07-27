@@ -6,4 +6,5 @@ export interface IGuiaDePescaCreate {
   reSenha: string;
   telefone: string;
   urlFoto?: string;
+  aceitoDeTermos: boolean;
 }

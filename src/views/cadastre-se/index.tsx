@@ -7,7 +7,9 @@ import { BoxApp } from "@/component/box/box-app";
 import { ButtonApp } from "@/component/button/button-app";
 import { DividerApp } from "@/component/divider/divider-app";
 import { IconApp } from "@/component/icon/icon-app";
+import { CheckBoxApp } from "@/component/input/check-box-app";
 import { InputApp, MaskType } from "@/component/input/input-app";
+import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
 import { TextApp } from "@/component/text/text-app";
 import { listaDeIcones } from "@/config/lista-de-icones";
 import { rotasApp } from "@/config/rotas-app";
@@ -16,12 +18,16 @@ import { useNavigateApp } from "@/hooks/use-navigate-app";
 import { useThemeApp } from "@/hooks/use-theme-app";
 import { IGuiaDePescaCreate } from "@/types/guia-de-pesca-create";
 import { Avatar, Button, styled } from "@mui/material";
+import { useState } from "react";
+import { ModalTermos } from "./modal-termos";
 
 export function CadastreSeView() {
   const { cadastrar } = useGuiaDePescaApi();
   const { navigate } = useNavigateApp();
+  const { show } = useSnackbar();
   const { backgroundColor, borderRadius, shadow, cores } = useThemeApp();
   const { resolveUploadImagem, recortarBase64 } = useArquivo();
+  const [open, setOpen] = useState(false);
   const form = useFormikAdapter<IGuiaDePescaCreate>({
     initialValues: {
       nome: "",
@@ -30,6 +36,7 @@ export function CadastreSeView() {
       senha: "",
       reSenha: "",
       telefone: "",
+      aceitoDeTermos: false,
     },
     validationSchema: new YupAdapter()
       .string("nome")
@@ -43,6 +50,10 @@ export function CadastreSeView() {
   });
 
   async function submit() {
+    if (!form.values.aceitoDeTermos) {
+      show("Você deve aceitar os termos para continuar.", "error");
+      return;
+    }
     const response = await cadastrar.fetch({
       ...form.values,
       urlFoto: form.values.urlFoto
@@ -65,6 +76,7 @@ export function CadastreSeView() {
       backgroundColor={backgroundColor.default}
       padding="1rem"
     >
+      <ModalTermos open={open} onClose={() => setOpen(false)} />
       <form
         style={{
           width: "100%",
@@ -198,6 +210,19 @@ export function CadastreSeView() {
                 />
               </Button>
             </BoxApp>
+          </BoxApp>
+          <BoxApp display="flex" justifyContent="center" alignItems="center">
+            <CheckBoxApp
+              label="Aceito os termos de uso"
+              value={form.values.aceitoDeTermos}
+              id="aceitoDeTermos"
+              onChange={form.onChange}
+            />
+            <ButtonApp
+              variant="text"
+              title="Termos"
+              onClick={() => setOpen(true)}
+            />
           </BoxApp>
           <ButtonApp
             loading={cadastrar.loading}
