@@ -18,6 +18,16 @@ export function EmbacacaoPaginacaoView() {
           headerName: "Motor",
           sortable: true,
         },
+        {
+          field: "largura",
+          headerName: "Largura",
+          sortable: true,
+        },
+        {
+          field: "comprimento",
+          headerName: "Comprimento",
+          sortable: true,
+        },
       ]}
       urlAdd={rotasApp.embarcacao.adicionar}
       urlEdit={rotasApp.embarcacao.editar}

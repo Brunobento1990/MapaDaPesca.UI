@@ -2,12 +2,16 @@
 
 import { useFormikAdapter } from "@/adapters/formik-adapters";
 import { YupAdapter } from "@/adapters/yup-adapters";
+import { embarcacaoRotasApi } from "@/api/rotas/embarcacao-rotas-api";
 import { usePescariaApi } from "@/api/use/use-pescaria-api";
+import { DropDownAutoFetchApp } from "@/component/dropdown/drop-down-auto-fetch-app";
 import { FormApp } from "@/component/form/form-app";
 import { FormItemRow } from "@/component/form/form-item-row";
 import { FormRow } from "@/component/form/form-row-app";
 import { CheckBoxApp } from "@/component/input/check-box-app";
 import { InputApp, MaskType } from "@/component/input/input-app";
+import { MapaApp } from "@/component/mapa/mapa-app";
+import { TextApp } from "@/component/text/text-app";
 import { rotasApp } from "@/config/rotas-app";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
 import { IFormTypes } from "@/types/form";
@@ -76,6 +80,7 @@ export function PescariaForma(props: IFormTypes) {
         editarPescaria.loading ||
         visualizarPescaria.loading
       }
+      titulo="Pescaria"
     >
       <FormRow>
         <FormItemRow xs={12} sm={6}>
@@ -193,6 +198,23 @@ export function PescariaForma(props: IFormTypes) {
             readonly={readonly}
           />
         </FormItemRow>
+        <FormItemRow xs={12} sm={3}>
+          <DropDownAutoFetchApp
+            retornarObjetoCompleto
+            id="embarcacaoId"
+            keyLabel={"nome"}
+            label="Embarcação"
+            url={embarcacaoRotasApi.paginacao}
+            value={form.values.embarcacao}
+            onChange={(_, value) => {
+              form.setValue({
+                embarcacao: value,
+                embarcacaoId: value?.id,
+              });
+            }}
+            readonly={readonly}
+          />
+        </FormItemRow>
       </FormRow>
       <FormRow>
         <FormItemRow xs={12} sm={3}>
@@ -261,6 +283,20 @@ export function PescariaForma(props: IFormTypes) {
           />
         </FormItemRow>
       </FormRow>
+      <TextApp
+        fontWeight={600}
+        titulo="O ponto marcado será usado para indicar a área onde você atua, ajudando pescadores a encontrar e contratar seu serviço de guia de pesca com mais facilidade."
+      />
+      <MapaApp
+        lat={form.values.latitude}
+        lng={form.values.longitude}
+        onClick={(lat, lng) => {
+          form.setValue({
+            latitude: lat,
+            longitude: lng,
+          });
+        }}
+      />
     </FormApp>
   );
 }

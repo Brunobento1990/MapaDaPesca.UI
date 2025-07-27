@@ -8,6 +8,7 @@ import { HeaderTable } from "./header";
 import { LoadingApp } from "../loading/loading-app";
 import { FooterTable } from "./footer";
 import { DefaultColuns } from "./default-coluns";
+import { useThemeApp } from "@/hooks/use-theme-app";
 
 interface tableProps {
   columns: any[];
@@ -39,6 +40,7 @@ export function TableIndex(props: tableProps) {
     sort: props.order ?? "desc",
   });
   const [quantidadePagina, setQuantidadePagina] = useState<number>(0);
+  const { backgroundColor } = useThemeApp();
   const [rows, setRows] = useState<any[]>([]);
   const { action, status } = useApi({
     method: props.metodo ?? "GET",
@@ -100,6 +102,8 @@ export function TableIndex(props: tableProps) {
       gap=".5rem"
       width="100%"
       minWidth="600px"
+      padding="0.5rem"
+      backgroundColor={backgroundColor.card}
     >
       {!props.notShowHeader && (
         <HeaderTable

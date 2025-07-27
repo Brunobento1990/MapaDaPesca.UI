@@ -60,7 +60,7 @@ export function useFormikAdapter<T = any>(
     }
     await formik.setValues({
       ...formik.values,
-      [id]: typeof newValue === "string" ? newValue.trim() : newValue,
+      [id]: newValue,
     });
   }
 

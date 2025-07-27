@@ -93,6 +93,9 @@ export function DefaultColuns(props: propsDefaultColumns) {
     renderCell: (params: any) => {
       return handleColuns(params);
     },
+    minWidth: 150,
+    sortable: false,
+    flex: 0.2,
   };
 
   return defaultColumns;

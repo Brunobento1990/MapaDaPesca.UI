@@ -130,7 +130,7 @@ export function TableApp(props: TablaAppProps) {
                     cursor: "pointer",
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&:hover": {
-                      backgroundColor: backgroundColor.card,
+                      backgroundColor: backgroundColor.default,
                     },
                   }}
                 >

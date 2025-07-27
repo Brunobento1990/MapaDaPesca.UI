@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { BoxApp, justifyContent } from "../box/box-app";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
 import { ButtonApp } from "../button/button-app";
+import { useThemeApp } from "@/hooks/use-theme-app";
+import { TextApp } from "../text/text-app";
 
 interface propsForm {
   children: ReactNode;
@@ -17,6 +19,7 @@ interface propsForm {
   textoButton?: string;
   paddingFooter?: string;
   marginTop?: string;
+  titulo?: string;
 }
 
 interface IFooterForm {
@@ -26,6 +29,7 @@ interface IFooterForm {
 
 export function FormApp(props: propsForm) {
   const { navigate } = useNavigateApp();
+  const { backgroundColor } = useThemeApp();
   return (
     <form
       onSubmit={async (e) => {
@@ -36,12 +40,13 @@ export function FormApp(props: propsForm) {
         height: props.heigth ?? "calc(100vh - 90px)",
         width: "100%",
         maxWidth: props.maxWidth,
-        padding: props.padding,
+        padding: props.padding ?? "0.5rem",
         overflow: "auto",
         display: "flex",
         flexDirection: "column",
         boxSizing: "border-box",
         justifyContent: "space-between",
+        backgroundColor: backgroundColor.card,
       }}
     >
       <BoxApp
@@ -52,6 +57,14 @@ export function FormApp(props: propsForm) {
         overflowx="hidden"
         width={props.width}
       >
+        {props.titulo && (
+          <TextApp
+            color="primary"
+            fontSize="1.2rem"
+            fontWeight={600}
+            titulo={props.titulo}
+          />
+        )}
         {props.children}
       </BoxApp>
       <BoxApp
