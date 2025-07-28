@@ -101,7 +101,7 @@ export function TableIndex(props: tableProps) {
       flexDirection="column"
       gap=".5rem"
       width="100%"
-      minWidth="600px"
+      //minWidth="600px"
       padding="0.5rem"
       backgroundColor={backgroundColor.card}
     >

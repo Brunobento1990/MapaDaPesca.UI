@@ -43,6 +43,7 @@ export function PescariaPaginacao() {
           headerName: "Duração (horas)",
         },
       ]}
+      minWidth={1200}
       urlAdd={rotasApp.pescaria.adicionar}
       urlEdit={rotasApp.pescaria.editar}
       urlView={rotasApp.pescaria.visualizar}
