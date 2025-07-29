@@ -64,6 +64,7 @@ export function LoginView() {
       <BoxApp
         borderRadius={borderRadius}
         boxShadow={shadow}
+        backgroundColor={backgroundColor.card}
         width="100%"
         height="100%"
         maxWidth="450px"

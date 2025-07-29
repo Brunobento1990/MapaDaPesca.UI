@@ -4,6 +4,9 @@ import { useFormikAdapter } from "@/adapters/formik-adapters";
 import { YupAdapter } from "@/adapters/yup-adapters";
 import { embarcacaoRotasApi } from "@/api/rotas/embarcacao-rotas-api";
 import { usePescariaApi } from "@/api/use/use-pescaria-api";
+import { BoxApp } from "@/component/box/box-app";
+import { CalendarioApp } from "@/component/calendario/calendario-app";
+import { DividerApp } from "@/component/divider/divider-app";
 import { DropDownAutoFetchApp } from "@/component/dropdown/drop-down-auto-fetch-app";
 import { FormApp } from "@/component/form/form-app";
 import { FormItemRow } from "@/component/form/form-item-row";
@@ -16,7 +19,9 @@ import { rotasApp } from "@/config/rotas-app";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
 import { IFormTypes } from "@/types/form";
 import { IPescaria } from "@/types/pescaria";
+import { formatDate } from "@/utils/format-date";
 import { cleanFormatMoney } from "@/utils/format-money";
+import moment from "moment";
 import { useEffect } from "react";
 
 export function PescariaForma(props: IFormTypes) {
@@ -44,7 +49,8 @@ export function PescariaForma(props: IFormTypes) {
     const body = {
       ...form.values,
       valor: cleanFormatMoney(form.values.valor),
-    };
+      datasBloqueadas: form.values.datasBloqueadas?.map((x) => x.data),
+    } as any;
     const response =
       props.action === "create"
         ? await criarPescaria.fetch(body)
@@ -283,8 +289,39 @@ export function PescariaForma(props: IFormTypes) {
           />
         </FormItemRow>
       </FormRow>
+      <BoxApp
+        padding="1rem 0rem 1rem 0rem"
+        width="100%"
+        display="flex"
+        overflowy="auto"
+        flexDirection="column"
+        gap="1rem"
+      >
+        <DividerApp chip="Bloquear datas sem agenda" />
+        <TextApp
+          titulo="Só serão salvas as datas do mês atual"
+          color="primary"
+        />
+        <CalendarioApp
+          setValues={(datas) => {
+            form.setValue({
+              datasBloqueadas: datas.map((x: any) => {
+                return {
+                  id: "",
+                  data: moment(x).toJSON(),
+                };
+              }),
+            });
+          }}
+          values={form.values.datasBloqueadas?.map(
+            (x) => formatDate(x.data) ?? ""
+          )}
+        />
+        <DividerApp />
+      </BoxApp>
       <TextApp
         fontWeight={600}
+        marginBotton="1rem"
         titulo="O ponto marcado será usado para indicar a área onde você atua, ajudando pescadores a encontrar e contratar seu serviço de guia de pesca com mais facilidade."
       />
       <MapaApp

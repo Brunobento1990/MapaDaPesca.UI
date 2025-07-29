@@ -24,4 +24,10 @@ export interface IPescaria extends IBase {
   longitude?: number;
   embarcacaoId?: string;
   embarcacao?: IEmbarcacao;
+  datasBloqueadas?: IBloqueioDataPescaria[];
+}
+
+export interface IBloqueioDataPescaria {
+  id: string;
+  data: string;
 }

@@ -71,7 +71,7 @@ export function FormApp(props: propsForm) {
         display="flex"
         justifyContent={props.footer?.justifyContent ?? "end"}
         gap="20px"
-        height="30px"
+        height="45px"
         alignItems="center"
         width="100%"
         boxSizing="border-box"
