@@ -2,30 +2,23 @@
 
 import { useFormikAdapter } from "@/adapters/formik-adapters";
 import { YupAdapter } from "@/adapters/yup-adapters";
-import { embarcacaoRotasApi } from "@/api/rotas/embarcacao-rotas-api";
 import { usePescariaApi } from "@/api/use/use-pescaria-api";
-import { BoxApp } from "@/component/box/box-app";
-import { CalendarioApp } from "@/component/calendario/calendario-app";
-import { DividerApp } from "@/component/divider/divider-app";
-import { DropDownAutoFetchApp } from "@/component/dropdown/drop-down-auto-fetch-app";
+import { CollapseApp } from "@/component/collapse/collapse-app";
 import { FormApp } from "@/component/form/form-app";
-import { FormItemRow } from "@/component/form/form-item-row";
-import { FormRow } from "@/component/form/form-row-app";
-import { CheckBoxApp } from "@/component/input/check-box-app";
-import { InputApp, MaskType } from "@/component/input/input-app";
-import { MapaApp } from "@/component/mapa/mapa-app";
-import { TextApp } from "@/component/text/text-app";
 import { rotasApp } from "@/config/rotas-app";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
+import { useTab } from "@/hooks/use-tab";
 import { IFormTypes } from "@/types/form";
 import { IPescaria } from "@/types/pescaria";
-import { formatDate } from "@/utils/format-date";
 import { cleanFormatMoney } from "@/utils/format-money";
-import moment from "moment";
 import { useEffect } from "react";
+import { TabGeralPescaria } from "./tab-geral-pescaria";
+import { TabDataPescaria } from "./tab-data-pescaria";
+import { TabMapaPescaria } from "./tab-mapa-pescaria";
 
 export function PescariaForma(props: IFormTypes) {
   const readonly = props.action === "view";
+  const { Component, value } = useTab();
   const { criarPescaria, editarPescaria, visualizarPescaria } =
     usePescariaApi();
   const { navigate, params } = useNavigateApp();
@@ -88,252 +81,18 @@ export function PescariaForma(props: IFormTypes) {
       }
       titulo="Pescaria"
     >
-      <FormRow>
-        <FormItemRow xs={12} sm={6}>
-          <InputApp
-            label="Título"
-            maxLength={100}
-            required
-            value={form.values.titulo}
-            fullWidth
-            error={form.error("titulo")}
-            helperText={form.helperText("titulo")}
-            id="titulo"
-            onChange={form.onChange}
-            onBlur={form.onBlur}
-            autoFocus
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={6}>
-          <InputApp
-            onBlur={form.onBlur}
-            label="Descrição"
-            maxLength={255}
-            required
-            value={form.values.descricao}
-            fullWidth
-            error={form.error("descricao")}
-            helperText={form.helperText("descricao")}
-            id="descricao"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-      </FormRow>
-      <FormRow>
-        <FormItemRow xs={12} sm={6}>
-          <InputApp
-            label="Local"
-            maxLength={100}
-            required
-            value={form.values.local}
-            fullWidth
-            error={form.error("local")}
-            helperText={form.helperText("local")}
-            id="local"
-            onChange={form.onChange}
-            onBlur={form.onBlur}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <InputApp
-            onBlur={form.onBlur}
-            label="Valor"
-            maxLength={255}
-            required
-            value={form.values.valor}
-            fullWidth
-            error={form.error("valor")}
-            helperText={form.helperText("valor")}
-            id="valor"
-            mask={MaskType.MONEY}
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <InputApp
-            onBlur={form.onBlur}
-            label="N° Pescadores"
-            maxLength={255}
-            value={form.values.quantidadePescador}
-            fullWidth
-            id="quantidadePescador"
-            type="number"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-      </FormRow>
-      <FormRow>
-        <FormItemRow xs={12} sm={3}>
-          <InputApp
-            onBlur={form.onBlur}
-            label="Hora inicial"
-            value={form.values.horaInicial}
-            fullWidth
-            id="horaInicial"
-            type="number"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <InputApp
-            onBlur={form.onBlur}
-            label="Hora final"
-            value={form.values.horaFinal}
-            fullWidth
-            id="horaFinal"
-            type="number"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <InputApp
-            onBlur={form.onBlur}
-            label="Qtd agendamentos no dia"
-            value={form.values.quantidadeMaximaDeAgendamentosNoDia}
-            fullWidth
-            id="quantidadeMaximaDeAgendamentosNoDia"
-            type="number"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <DropDownAutoFetchApp
-            retornarObjetoCompleto
-            id="embarcacaoId"
-            keyLabel={"nome"}
-            label="Embarcação"
-            url={embarcacaoRotasApi.paginacao}
-            value={form.values.embarcacao}
-            onChange={(_, value) => {
-              form.setValue({
-                embarcacao: value,
-                embarcacaoId: value?.id,
-              });
-            }}
-            readonly={readonly}
-          />
-        </FormItemRow>
-      </FormRow>
-      <FormRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. segunda-feira"
-            value={form.values.bloquearSegundaFeira}
-            id="bloquearSegundaFeira"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. terça-feira"
-            value={form.values.bloquearTercaFeira}
-            id="bloquearTercaFeira"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. quarta-feira"
-            value={form.values.bloquearQuartaFeira}
-            id="bloquearQuartaFeira"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. quinta-feira"
-            value={form.values.bloquearQuintaFeira}
-            id="bloquearQuintaFeira"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-      </FormRow>
-      <FormRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. sexta-feira"
-            value={form.values.bloquearSextaFeira}
-            id="bloquearSextaFeira"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. sábado"
-            value={form.values.bloquearSabado}
-            id="bloquearSabado"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-        <FormItemRow xs={12} sm={3}>
-          <CheckBoxApp
-            label="Bloquear ag. domingo"
-            value={form.values.bloquearDomingo}
-            id="bloquearDomingo"
-            onChange={form.onChange}
-            readonly={readonly}
-          />
-        </FormItemRow>
-      </FormRow>
-      <BoxApp
-        padding="1rem 0rem 1rem 0rem"
-        width="100%"
-        display="flex"
-        overflowy="auto"
-        flexDirection="column"
-        gap="1rem"
-      >
-        <DividerApp chip="Bloquear datas sem agenda" />
-        <TextApp
-          titulo="Só serão salvas as datas do mês atual"
-          color="primary"
-        />
-        <CalendarioApp
-          setValues={(datas) => {
-            form.setValue({
-              datasBloqueadas: datas.map((x: any) => {
-                return {
-                  id: "",
-                  data: moment(x).toJSON(),
-                };
-              }),
-            });
-          }}
-          values={form.values.datasBloqueadas?.map(
-            (x) => formatDate(x.data) ?? ""
-          )}
-        />
-        <DividerApp />
-      </BoxApp>
-      <TextApp
-        fontWeight={600}
-        marginBotton="1rem"
-        titulo="O ponto marcado será usado para indicar a área onde você atua, ajudando pescadores a encontrar e contratar seu serviço de guia de pesca com mais facilidade."
+      <Component
+        tabs={[{ titulo: "Geral" }, { titulo: "Datas" }, { titulo: "Mapa" }]}
       />
-      <MapaApp
-        lat={form.values.latitude}
-        lng={form.values.longitude}
-        onClick={(lat, lng) => {
-          form.setValue({
-            latitude: lat,
-            longitude: lng,
-          });
-        }}
-      />
+      <CollapseApp in={value === 0}>
+        <TabGeralPescaria form={form} readonly={readonly} />
+      </CollapseApp>
+      <CollapseApp in={value === 1}>
+        <TabDataPescaria form={form} readonly={readonly} />
+      </CollapseApp>
+      <CollapseApp in={value === 2}>
+        <TabMapaPescaria form={form} readonly={readonly} />
+      </CollapseApp>
     </FormApp>
   );
 }

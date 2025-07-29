@@ -39,12 +39,14 @@ interface ICalendarioAppProps {
   values?: string[];
   setValues: (values: string[]) => void;
   multiple?: boolean;
+  readonly?: boolean;
 }
 
 export function CalendarioApp(props: ICalendarioAppProps) {
   const { cores } = useThemeApp();
   return (
     <DatePicker
+      readOnly={props.readonly}
       multiple={props.multiple}
       value={props.values ?? []}
       locale={pt_br as any}
