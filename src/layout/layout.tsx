@@ -30,19 +30,23 @@ const drawerWidth = 240;
 
 interface MainProps {
   open: boolean;
-  isMobile: boolean;
+  ismobile: string;
 }
 
 const Main = styled("main", {
   shouldForwardProp: (prop) => prop !== "open",
-})<MainProps>(({ theme, open, isMobile }) => ({
+})<MainProps>(({ theme, open, ismobile }) => ({
   flexGrow: 1,
   padding: theme.spacing(2),
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: open ? `0px` : isMobile ? "0px" : `-${drawerWidth - 64}px`,
+  marginLeft: open
+    ? `0px`
+    : ismobile === "true"
+    ? "0px"
+    : `-${drawerWidth - 64}px`,
 }));
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -181,7 +185,7 @@ export default function Layout(props: propsLayout) {
         <Main
           sx={{ width: `100vw`, overflow: "auto" }}
           open={open}
-          isMobile={isMobile}
+          ismobile={isMobile.toString()}
         >
           <Toolbar />
           {props.children}

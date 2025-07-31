@@ -1,4 +1,4 @@
-import { useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { pescariaRotasApi } from "../rotas/pescaria-rotas-api";
 import { IPescaria } from "@/types/pescaria";
 
@@ -39,15 +39,15 @@ export function usePescariaApi() {
   return {
     criarPescaria: {
       fetch: criarPescaria,
-      loading: apiCriar.status === "loading",
+      loading: apiCriar.status === tipoStatusRequisicao.loading,
     },
     editarPescaria: {
       fetch: editarPescaria,
-      loading: apiEditar.status === "loading",
+      loading: apiEditar.status === tipoStatusRequisicao.loading,
     },
     visualizarPescaria: {
       fetch: visualizarPescaria,
-      loading: apiVisualizar.status === "loading",
+      loading: apiVisualizar.status === tipoStatusRequisicao.loading,
     },
   };
 }

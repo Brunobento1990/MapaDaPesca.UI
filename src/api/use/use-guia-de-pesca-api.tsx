@@ -1,7 +1,8 @@
-import { useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { guiaDePescaRotasApi } from "../rotas/guia-de-pesca-rotas-api";
 import { IGuiaDePescaCreate } from "@/types/guia-de-pesca-create";
 import { IRecuperarSenha } from "@/types/recuperar-senha";
+import { IGuiaDePesca } from "@/types/guia-de-pesca";
 
 export function useGuiaDePescaApi() {
   const apiCadastrar = useApi({
@@ -13,13 +14,24 @@ export function useGuiaDePescaApi() {
   const apiConfirmarConta = useApi({
     method: "PUT",
     url: guiaDePescaRotasApi.confirmarConta,
-    statusInicial: "loading",
+    statusInicial: tipoStatusRequisicao.loading,
+  });
+
+  const apiMinhaConta = useApi({
+    method: "GET",
+    url: guiaDePescaRotasApi.minhaConta,
+    statusInicial: tipoStatusRequisicao.loading,
   });
 
   const apiEsqueceSenha = useApi({
     method: "PUT",
     url: guiaDePescaRotasApi.esqueceSenha,
     naoRenderizarResposta: true,
+  });
+
+  const apiEditarMinhaConta = useApi({
+    method: "PUT",
+    url: guiaDePescaRotasApi.editarMinhaConta,
   });
 
   const apiRecuperarSenha = useApi({
@@ -55,22 +67,43 @@ export function useGuiaDePescaApi() {
     });
   };
 
+  const minhaConta = async (): Promise<IGuiaDePesca | undefined> => {
+    return apiMinhaConta.action();
+  };
+
+  const editarMinhaConta = async (
+    body: Partial<IGuiaDePescaCreate>
+  ): Promise<IGuiaDePesca | undefined> => {
+    return apiEditarMinhaConta.action({
+      body,
+      message: "Dados atualizados com sucesso!",
+    });
+  };
+
   return {
     cadastrar: {
       fetch: cadastrar,
-      loading: apiCadastrar.status === "loading",
+      loading: apiCadastrar.status === tipoStatusRequisicao.loading,
     },
     confirmarConta: {
       fetch: confirmarConta,
-      loading: apiConfirmarConta.status === "loading",
+      loading: apiConfirmarConta.status === tipoStatusRequisicao.loading,
     },
     esqueceSenha: {
       fetch: esqueceSenha,
-      loading: apiEsqueceSenha.status === "loading",
+      loading: apiEsqueceSenha.status === tipoStatusRequisicao.loading,
     },
     recuperarSenha: {
       fetch: recuperarSenha,
-      loading: apiRecuperarSenha.status === "loading",
+      loading: apiRecuperarSenha.status === tipoStatusRequisicao.loading,
+    },
+    minhaConta: {
+      fetch: minhaConta,
+      loading: apiMinhaConta.status === tipoStatusRequisicao.loading,
+    },
+    editarMinhaConta: {
+      fetch: editarMinhaConta,
+      loading: apiEditarMinhaConta.status === tipoStatusRequisicao.loading,
     },
   };
 }

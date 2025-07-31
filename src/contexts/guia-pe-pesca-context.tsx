@@ -11,6 +11,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 
 interface IGuiaDePescaContext {
   guiaDePesca?: IGuiaDePesca;
+  atualizarGuiaDePesca: (guiaDePesca: IGuiaDePesca) => void;
   logar: (responseLogin: ILoginResponse) => void;
   sair: () => void;
 }
@@ -65,6 +66,7 @@ export function GuiaDePescaProvider(props: IGuiaDePescaProvider) {
         logar,
         guiaDePesca,
         sair,
+        atualizarGuiaDePesca: setGuiaDePesca,
       }}
     >
       {props.children}

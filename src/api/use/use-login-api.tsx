@@ -1,4 +1,4 @@
-import { useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { loginRotasApi } from "../rotas/login-rotas-api";
 import { ILoginResponse } from "@/types/login-response";
 import { ILoginRequest } from "@/types/login-request";
@@ -31,11 +31,11 @@ export function useLoginApi() {
   return {
     login: {
       fetch: login,
-      loading: api.status === "loading",
+      loading: api.status === tipoStatusRequisicao.loading,
     },
     loginComGoogle: {
       fetch: loginComGoogle,
-      loading: apiLoginComGoogle.status === "loading",
+      loading: apiLoginComGoogle.status === tipoStatusRequisicao.loading,
     },
   };
 }

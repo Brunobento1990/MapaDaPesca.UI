@@ -3,7 +3,7 @@ import { Fragment, useDeferredValue, useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { ButtonApp } from "../button/button-app";
 import { listaDeIcones } from "@/config/lista-de-icones";
-import { TypeMethod, useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, TypeMethod, useApi } from "@/hooks/use-api";
 import { IPaginacaoResponse } from "@/types/paginacao";
 
 interface propsDropDown {
@@ -95,7 +95,7 @@ export function DropDownAutoFetchApp(props: propsDropDown) {
   const [search, setSearch] = useState("");
   const defer = useDeferredValue(search);
   const textoNaoEncontrado = props.textoNaoEncontrado ?? "S/R";
-  const loading = status === "loading";
+  const loading = status === tipoStatusRequisicao.loading;
   const labelValueSelecionado = getLabel(props?.value);
 
   function getLabel(value: any) {

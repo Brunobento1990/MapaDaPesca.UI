@@ -1,7 +1,10 @@
 import { BoxApp } from "@/component/box/box-app";
+import { DividerApp } from "@/component/divider/divider-app";
 import { IconApp } from "@/component/icon/icon-app";
 import { listaDeIcones } from "@/config/lista-de-icones";
+import { rotasApp } from "@/config/rotas-app";
 import { useContextGuiaDePesca } from "@/contexts/guia-pe-pesca-context";
+import { useNavigateApp } from "@/hooks/use-navigate-app";
 import {
   Avatar,
   IconButton,
@@ -13,6 +16,7 @@ import {
 import { useState } from "react";
 
 export function MenuGuiaDePescaApp() {
+  const { navigate } = useNavigateApp();
   const { guiaDePesca, sair } = useContextGuiaDePesca();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -86,6 +90,18 @@ export function MenuGuiaDePescaApp() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <MenuItem
+          onClick={() => {
+            navigate(rotasApp.minhaConta);
+          }}
+          key="menu-account"
+        >
+          <ListItemIcon>
+            <IconApp icon={listaDeIcones.account} />
+          </ListItemIcon>
+          Minha Conta
+        </MenuItem>
+        <DividerApp />
         <MenuItem onClick={sairClick} key="menu-sair">
           <ListItemIcon>
             <IconApp icon={listaDeIcones.sair} />

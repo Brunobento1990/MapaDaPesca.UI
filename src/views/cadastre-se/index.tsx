@@ -41,7 +41,7 @@ export function CadastreSeView() {
     validationSchema: new YupAdapter()
       .string("nome")
       .string("cpf")
-      .string("email")
+      .email("email")
       .string("senha")
       .string("reSenha")
       .string("telefone")
@@ -130,6 +130,7 @@ export function CadastreSeView() {
             label="E-mail"
             required
             id="email"
+            type="email"
             onChange={form.onChange}
             onBlur={form.onBlur}
             error={form.error("email")}
@@ -236,7 +237,7 @@ export function CadastreSeView() {
   );
 }
 
-const VisuallyHiddenInput = styled("input")({
+export const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
   height: 1,

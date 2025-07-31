@@ -10,6 +10,13 @@ import { IErrorResponse } from "@/types/erro-response";
 
 export type TypeMethod = "GET" | "POST" | "PUT" | "DELETE";
 export type StatusRequisicao = "loading" | "success" | "error";
+
+export const tipoStatusRequisicao: Record<string, StatusRequisicao> = {
+  loading: "loading",
+  success: "success",
+  error: "error",
+};
+
 interface propsUseApi {
   method: TypeMethod;
   url: string;
@@ -93,8 +100,8 @@ export function useApi(props: propsUseApi) {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
-      if (!status || status !== "loading") {
-        setStatus("loading");
+      if (!status || status !== tipoStatusRequisicao.loading) {
+        setStatus(tipoStatusRequisicao.loading);
       }
       abortControllerRef.current = new AbortController();
       const { signal } = abortControllerRef.current;

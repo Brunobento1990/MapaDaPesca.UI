@@ -1,4 +1,4 @@
-import { useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { agendaRotasApi } from "../rotas/agenda-rotas-api";
 import { IAgendaPescaria, IAgendaResponse, IAgendarPescaria } from "@/types/agenda-pescaria";
 
@@ -59,19 +59,19 @@ export function useAgendaApi() {
   return {
     agendarPescaria: {
       fetch: agendarPescaria,
-      loading: apiAgendar.status === "loading",
+      loading: apiAgendar.status === tipoStatusRequisicao.loadin,
     },
     agendaDoMes: {
       fetch: agendaDoMes,
-      loading: apiAgendaDoMes.status === "loading",
+      loading: apiAgendaDoMes.status === tipoStatusRequisicao.loading,
     },
     obterPorId: {
       fetch: obterPorId,
-      loading: apiObterAgenda.status === "loading",
+      loading: apiObterAgenda.status === tipoStatusRequisicao.loading,
     },
     editarPescaria: {
       fetch: editarAgendaPescaria,
-      loading: apiEditarPescaria.status === "loading",
+      loading: apiEditarPescaria.status === tipoStatusRequisicao.loading,
     },
   };
 }

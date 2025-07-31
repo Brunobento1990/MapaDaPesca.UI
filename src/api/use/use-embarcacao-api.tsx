@@ -1,4 +1,4 @@
-import { useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { embarcacaoRotasApi } from "../rotas/embarcacao-rotas-api";
 import { IEmbarcacao } from "@/types/embarcacao";
 
@@ -39,15 +39,15 @@ export function useEmbarcacaoApi() {
   return {
     criarEmbarcacao: {
       fetch: criarEmbarcacao,
-      loading: apiCriar.status === "loading",
+      loading: apiCriar.status === tipoStatusRequisicao.loading,
     },
     editarEmbarcacao: {
       fetch: editarEmbarcacao,
-      loading: apiEditar.status === "loading",
+      loading: apiEditar.status === tipoStatusRequisicao.loading,
     },
     visualizarEmbarcacao: {
       fetch: visualizarEmbarcacao,
-      loading: apiVisualizar.status === "loading",
+      loading: apiVisualizar.status === tipoStatusRequisicao.loading,
     },
   };
 }

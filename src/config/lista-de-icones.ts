@@ -17,4 +17,5 @@ export const listaDeIcones = {
   setaParaEsquerda: "lets-icons:expand-left",
   foto: "raphael:photo",
   barco: "game-icons:fishing-boat",
+  account: "mdi:account-cog-outline",
 };

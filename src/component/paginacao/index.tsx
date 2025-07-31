@@ -1,4 +1,4 @@
-import { TypeMethod, useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, TypeMethod, useApi } from "@/hooks/use-api";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { ISort, ISortingTable, TableApp } from "./table";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
@@ -46,7 +46,7 @@ export function TableIndex(props: tableProps) {
     method: props.metodo ?? "GET",
     url: props.url,
     naoRenderizarResposta: true,
-    statusInicial: "loading",
+    statusInicial: tipoStatusRequisicao.loading,
   });
 
   async function refresh(searchP?: string) {
@@ -114,7 +114,7 @@ export function TableIndex(props: tableProps) {
           acoesExtras={props.acoesExtras}
         />
       )}
-      {status === "loading" ? (
+      {status === tipoStatusRequisicao.loading ? (
         <LoadingApp comBox height="calc(100vh - 220px)" />
       ) : (
         <>

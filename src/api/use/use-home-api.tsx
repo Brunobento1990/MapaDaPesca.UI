@@ -1,4 +1,4 @@
-import { useApi } from "@/hooks/use-api";
+import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { homeRotasApi } from "../rotas/home-rotas-api";
 import { IHome } from "@/types/home";
 
@@ -6,7 +6,7 @@ export function useHomeApi() {
   const api = useApi({
     method: "GET",
     url: homeRotasApi.home,
-    statusInicial: "loading",
+    statusInicial: tipoStatusRequisicao.loading,
   });
 
   async function obter(
@@ -21,7 +21,7 @@ export function useHomeApi() {
   return {
     obter: {
       fetch: obter,
-      loading: api.status === "loading",
+      loading: api.status === tipoStatusRequisicao.loading,
     },
   };
 }
