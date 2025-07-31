@@ -46,14 +46,16 @@ export interface IAgendaPescaria extends IBase {
   dia: number;
   mes: number;
   ano: number;
-  horaInicio: number;
+  horaInicial: number;
   horaFinal: number;
   observacao: string;
   status: number;
   pescariaId: string;
   pescaria: IPescaria;
   dataDeAgendamento?: string;
+  quantidadeDePescador?: number;
   galeria?: IGaleriaAgendamento[];
+  fotosExcluidas?: string[];
 }
 
 export interface IGaleriaAgendamento {

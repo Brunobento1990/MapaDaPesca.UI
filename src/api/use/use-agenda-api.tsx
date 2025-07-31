@@ -1,6 +1,10 @@
 import { tipoStatusRequisicao, useApi } from "@/hooks/use-api";
 import { agendaRotasApi } from "../rotas/agenda-rotas-api";
-import { IAgendaPescaria, IAgendaResponse, IAgendarPescaria } from "@/types/agenda-pescaria";
+import {
+  IAgendaPescaria,
+  IAgendaResponse,
+  IAgendarPescaria,
+} from "@/types/agenda-pescaria";
 
 export function useAgendaApi() {
   const apiAgendar = useApi({
@@ -16,6 +20,7 @@ export function useAgendaApi() {
   const apiAgendaDoMes = useApi({
     url: agendaRotasApi.agendaDoMes,
     method: "GET",
+    statusInicial: tipoStatusRequisicao.loading,
   });
 
   const apiObterAgenda = useApi({
@@ -33,7 +38,7 @@ export function useAgendaApi() {
   }
 
   async function editarAgendaPescaria(
-    body: Partial<IAgendarPescaria>
+    body: Partial<IAgendaPescaria>
   ): Promise<IAgendaPescaria | undefined> {
     return apiEditarPescaria.action({
       body,

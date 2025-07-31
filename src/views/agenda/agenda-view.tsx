@@ -16,6 +16,8 @@ import { DividerApp } from "@/component/divider/divider-app";
 import { ModalAgendamento } from "./modal-agendamento";
 import { LoadingApp } from "@/component/loading/loading-app";
 import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
+import { useNavigateApp } from "@/hooks/use-navigate-app";
+import { rotasApp } from "@/config/rotas-app";
 
 const corDataBloqueada = "#ffa963";
 
@@ -24,11 +26,11 @@ export function AgendaView() {
   const [selectedDate, setSelectedDate] = useState("");
   const [dataAtual, setDataAtual] = useState(moment().format("YYYY-MM-DD"));
   const [agenda, setAgenda] = useState<IAgendaPescaria[]>([]);
-  const [agendaSelecionada, setAgendaSelecionada] = useState<IAgendaPescaria>();
   moment.locale("pt-br");
   const localizer = momentLocalizer(moment);
-  const { agendaDoMes, obterPorId } = useAgendaApi();
+  const { agendaDoMes } = useAgendaApi();
   const { show } = useSnackbar();
+  const { navigate } = useNavigateApp();
 
   const messages = {
     allDay: "Dia inteiro",
@@ -48,7 +50,6 @@ export function AgendaView() {
 
   function fecharModal() {
     setOpenModal(false);
-    setAgendaSelecionada(undefined);
     setSelectedDate("");
   }
 
@@ -76,11 +77,11 @@ export function AgendaView() {
     }
   }
 
-  async function selecionarAgenda(agenda: IAgendaPescaria) {
-    const response = await obterPorId.fetch(agenda.id);
-    if (response) {
-      setAgendaSelecionada(response);
+  function selecionarAgenda(agenda: IAgendaPescaria) {
+    if (!agenda) {
+      return;
     }
+    navigate(rotasApp.agendaVisualizar + agenda.id);
   }
 
   useEffect(() => {
@@ -90,22 +91,15 @@ export function AgendaView() {
 
   return (
     <Fragment>
-      {openModal || agendaSelecionada ? (
+      {openModal ? (
         <ModalAgendamento
-          open={openModal || agendaSelecionada !== undefined}
+          open={openModal}
           selectedDate={selectedDate}
           fechar={(agenda) => {
             setAgenda((prev) => [...prev, agenda]);
             fecharModal();
           }}
-          confirmarEdicao={(agenda) => {
-            setAgenda((prev) =>
-              prev.map((item) => (item.id === agenda.id ? agenda : item))
-            );
-            fecharModal();
-          }}
           close={fecharModal}
-          agendaSelecionada={agendaSelecionada}
         />
       ) : (
         <></>
@@ -170,10 +164,9 @@ export function AgendaView() {
           </BoxApp>
         </BoxApp>
       </BoxApp>
-      {agendaDoMes.loading ||
-        (obterPorId.loading && (
-          <LoadingApp comBox texto="Carregando agenda..." />
-        ))}
+      {agendaDoMes.loading && (
+        <LoadingApp comBox texto="Carregando agenda..." />
+      )}
       <DividerApp marginBotton="1rem" marginTop="1rem" />
       <div style={{ height: "600px" }}>
         <Calendar
@@ -221,7 +214,7 @@ export function AgendaView() {
               show("Data bloqueada", "error");
               return;
             }
-            await selecionarAgenda(event.agenda);
+            selecionarAgenda(event.agenda);
           }}
           onNavigate={async (date) => {
             await init(moment(date).format("YYYY-MM-DD"));

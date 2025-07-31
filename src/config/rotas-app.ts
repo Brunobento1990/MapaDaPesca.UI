@@ -2,6 +2,7 @@ export const rotasApp = {
   home: "/",
   login: "/login",
   agenda: "/agenda",
+  agendaVisualizar: "/agenda/visualizar/",
   minhaConta: "/minha-conta",
   pescaria: {
     paginacao: "/pescaria",
