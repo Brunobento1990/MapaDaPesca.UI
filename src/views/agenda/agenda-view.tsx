@@ -15,6 +15,9 @@ import { TextApp } from "@/component/text/text-app";
 import { DividerApp } from "@/component/divider/divider-app";
 import { ModalAgendamento } from "./modal-agendamento";
 import { LoadingApp } from "@/component/loading/loading-app";
+import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
+
+const corDataBloqueada = "#ffa963";
 
 export function AgendaView() {
   const [openModal, setOpenModal] = useState(false);
@@ -25,6 +28,7 @@ export function AgendaView() {
   moment.locale("pt-br");
   const localizer = momentLocalizer(moment);
   const { agendaDoMes, obterPorId } = useAgendaApi();
+  const { show } = useSnackbar();
 
   const messages = {
     allDay: "Dia inteiro",
@@ -59,7 +63,16 @@ export function AgendaView() {
       moment(data ?? dataAtual).format("YYYY")
     );
     if (response) {
-      setAgenda(response);
+      setAgenda([
+        ...response.agenda,
+        ...response.agendaBloqueada.map((item) => {
+          return {
+            ...item,
+            dataDeAgendamento: item.data,
+            bloqueada: true,
+          } as any;
+        }),
+      ]);
     }
   }
 
@@ -97,7 +110,7 @@ export function AgendaView() {
       ) : (
         <></>
       )}
-      <BoxApp display="flex" flexDirection="column" gap="10px">
+      <BoxApp display="flex" flexDirection="column" gap="10px" overflowy="auto">
         <TextApp titulo="Legenda status" />
         <BoxApp display="flex" gap="10px">
           <BoxApp display="flex" gap="10px">
@@ -144,6 +157,17 @@ export function AgendaView() {
             </BoxApp>
             <TextApp titulo="Concluído" />
           </BoxApp>
+          <BoxApp display="flex" gap="10px">
+            <BoxApp
+              width="20px"
+              height="20px"
+              borderRadius="3px"
+              backgroundColor={corDataBloqueada}
+            >
+              <></>
+            </BoxApp>
+            <TextApp titulo="Bloqueada" />
+          </BoxApp>
         </BoxApp>
       </BoxApp>
       {agendaDoMes.loading ||
@@ -154,19 +178,31 @@ export function AgendaView() {
       <div style={{ height: "600px" }}>
         <Calendar
           localizer={localizer}
-          events={agenda.map((item) => {
+          events={agenda.map((item: any) => {
             return {
               start: new Date(`${item.ano}-${item.mes}-${item.dia}`),
               end: new Date(`${item.ano}-${item.mes}-${item.dia}`),
-              title: item.pescaria?.titulo || "Pescaria",
+              title: item.titulo ?? (item.pescaria?.titulo || "Pescaria"),
               status: item.status,
               agenda: item,
+              bloqueada: item.bloqueada,
             };
           })}
           components={{
             event: CustomEvent,
           }}
           eventPropGetter={(event: any) => {
+            if (event.bloqueada) {
+              return {
+                style: {
+                  backgroundColor: corDataBloqueada,
+                  color: "#888",
+                  pointerEvents: "none",
+                  cursor: "not-allowed",
+                },
+              };
+            }
+
             const cor = StatusAgendaPescariaColor[event.status];
 
             return {
@@ -180,7 +216,13 @@ export function AgendaView() {
               },
             };
           }}
-          onSelectEvent={async (event) => await selecionarAgenda(event.agenda)}
+          onSelectEvent={async (event) => {
+            if (event.bloqueada) {
+              show("Data bloqueada", "error");
+              return;
+            }
+            await selecionarAgenda(event.agenda);
+          }}
           onNavigate={async (date) => {
             await init(moment(date).format("YYYY-MM-DD"));
             setDataAtual(moment(date).format("YYYY-MM-DD"));
@@ -191,7 +233,22 @@ export function AgendaView() {
           step={60}
           selectable
           showMultiDayTimes
-          onSelectSlot={(slotInfo) => {
+          onSelectSlot={(slotInfo: any) => {
+            if (slotInfo.bloqueada) {
+              show("Data bloqueada", "error");
+              return;
+            }
+            const dataSplit = slotInfo.start.toLocaleDateString().split("/");
+            const dia = parseInt(dataSplit[0].toString(), 10);
+            const mes = parseInt(dataSplit[1].toString(), 10);
+            const bloqueada = agenda.some(
+              (x: any) => x.dia === dia && x.mes === mes && x.bloqueada
+            );
+
+            if (bloqueada) {
+              show("Data bloqueada", "error");
+              return;
+            }
             abrirModal(slotInfo.start.toLocaleDateString());
           }}
         />

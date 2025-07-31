@@ -1,5 +1,5 @@
 import { IBase } from "./base";
-import { IPescaria } from "./pescaria";
+import { IBloqueioDataPescaria, IPescaria } from "./pescaria";
 
 export interface IAgendarPescaria {
   pescariaId: string;
@@ -59,4 +59,9 @@ export interface IAgendaPescaria extends IBase {
 export interface IGaleriaAgendamento {
   id: string;
   url: string;
+}
+
+export interface IAgendaResponse{
+  agenda: IAgendaPescaria[];
+  agendaBloqueada: IBloqueioDataPescaria[];
 }

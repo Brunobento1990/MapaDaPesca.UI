@@ -30,4 +30,5 @@ export interface IPescaria extends IBase {
 export interface IBloqueioDataPescaria {
   id: string;
   data: string;
+  titulo: string;
 }

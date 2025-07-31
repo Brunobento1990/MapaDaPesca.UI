@@ -1,6 +1,6 @@
 import { useApi } from "@/hooks/use-api";
 import { agendaRotasApi } from "../rotas/agenda-rotas-api";
-import { IAgendaPescaria, IAgendarPescaria } from "@/types/agenda-pescaria";
+import { IAgendaPescaria, IAgendaResponse, IAgendarPescaria } from "@/types/agenda-pescaria";
 
 export function useAgendaApi() {
   const apiAgendar = useApi({
@@ -50,7 +50,7 @@ export function useAgendaApi() {
   async function agendaDoMes(
     mes: string,
     ano: string
-  ): Promise<IAgendaPescaria[] | undefined> {
+  ): Promise<IAgendaResponse | undefined> {
     return apiAgendaDoMes.action({
       urlParams: `?mes=${mes}&ano=${ano}`,
     });
