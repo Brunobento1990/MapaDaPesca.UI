@@ -3,6 +3,8 @@
 import { useFormikAdapter } from "@/adapters/formik-adapters";
 import { YupAdapter } from "@/adapters/yup-adapters";
 import { useEmbarcacaoApi } from "@/api/use/use-embarcacao-api";
+import { BoxApp } from "@/component/box/box-app";
+import { DividerApp } from "@/component/divider/divider-app";
 import { FormApp } from "@/component/form/form-app";
 import { FormItemRow } from "@/component/form/form-item-row";
 import { FormRow } from "@/component/form/form-row-app";
@@ -10,6 +12,7 @@ import GaleriaApp from "@/component/galeria/galeria-app";
 import { InputApp } from "@/component/input/input-app";
 import { InputFile } from "@/component/input/input-file";
 import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
+import { TextApp } from "@/component/text/text-app";
 import { rotasApp } from "@/config/rotas-app";
 import { useArquivo } from "@/hooks/use-arquivo";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
@@ -200,6 +203,7 @@ export function EmbarcacaoForm(props: IFormTypes) {
           />
         </FormItemRow>
       </FormRow>
+      <DividerApp chip="Galeria" marginBotton="1rem" />
       <InputFile
         allowedTypes={["image/*"]}
         multiple
