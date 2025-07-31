@@ -6,17 +6,24 @@ import { useEmbarcacaoApi } from "@/api/use/use-embarcacao-api";
 import { FormApp } from "@/component/form/form-app";
 import { FormItemRow } from "@/component/form/form-item-row";
 import { FormRow } from "@/component/form/form-row-app";
+import GaleriaApp from "@/component/galeria/galeria-app";
 import { InputApp } from "@/component/input/input-app";
+import { InputFile } from "@/component/input/input-file";
+import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
 import { rotasApp } from "@/config/rotas-app";
+import { useArquivo } from "@/hooks/use-arquivo";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
-import { IEmbarcacao } from "@/types/embarcacao";
+import { IEmbarcacao, IGaleriaEmbarcacao } from "@/types/embarcacao";
 import { IFormTypes } from "@/types/form";
+import { removerItemDeArrayPorIndex } from "@/utils/remover-item-array";
 import { useEffect } from "react";
 
 export function EmbarcacaoForm(props: IFormTypes) {
   const readonly = props.action === "view";
   const { criarEmbarcacao, editarEmbarcacao, visualizarEmbarcacao } =
     useEmbarcacaoApi();
+  const { resolveUploadImagem, recortarBase64 } = useArquivo();
+  const { show } = useSnackbar();
   const { navigate, params } = useNavigateApp();
   const form = useFormikAdapter<IEmbarcacao>({
     initialValues: {
@@ -29,7 +36,15 @@ export function EmbarcacaoForm(props: IFormTypes) {
   async function submit() {
     const body = {
       ...form.values,
-    };
+      galeria: form.values.galeria?.map((item) => ({
+        id: item.id && item.id.length > 0 ? item.id : undefined,
+        url: recortarBase64(item.url).base64,
+      })),
+      fotosExcluidas:
+        props.action !== "edit"
+          ? undefined
+          : form.values.fotosExcluidas?.filter((x) => x !== "" && x !== null),
+    } as any;
     const response =
       props.action === "create"
         ? await criarEmbarcacao.fetch(body)
@@ -48,6 +63,44 @@ export function EmbarcacaoForm(props: IFormTypes) {
     if (response) {
       form.setValue(response);
     }
+  }
+
+  async function adicionarFotos(fotos: FileList) {
+    if (!fotos || fotos.length === 0) {
+      return;
+    }
+
+    const maxFotos = (form.values.galeria?.length || 0) + fotos.length;
+
+    if (maxFotos > 10) {
+      show("Você pode adicionar no máximo 10 fotos.", "error");
+      return;
+    }
+    // eslint-disable-next-line prefer-const
+    let novaGaleria: IGaleriaEmbarcacao[] = [];
+    for (const foto of fotos) {
+      const f = await resolveUploadImagem(foto);
+      novaGaleria.push({ id: "", url: f.src });
+    }
+    form.setValue({
+      galeria: [...(form.values.galeria || []), ...novaGaleria],
+    });
+  }
+
+  function excluirFoto(index: number) {
+    if (readonly) {
+      return;
+    }
+    form.setValue({
+      galeria: removerItemDeArrayPorIndex(index, form.values.galeria || []),
+      fotosExcluidas:
+        props.action === "edit"
+          ? [
+              ...(form.values.fotosExcluidas || []),
+              form.values.galeria?.[index].id ?? "",
+            ]
+          : [],
+    });
   }
 
   useEffect(() => {
@@ -147,6 +200,18 @@ export function EmbarcacaoForm(props: IFormTypes) {
           />
         </FormItemRow>
       </FormRow>
+      <InputFile
+        allowedTypes={["image/*"]}
+        multiple
+        onChange={adicionarFotos}
+      />
+      {form.values.galeria && (
+        <GaleriaApp
+          imagens={form.values.galeria ?? []}
+          excluir={excluirFoto}
+          readonly={readonly}
+        />
+      )}
     </FormApp>
   );
 }

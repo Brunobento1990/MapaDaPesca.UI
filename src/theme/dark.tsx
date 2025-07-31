@@ -9,7 +9,7 @@ export const DarkTheme = createTheme({
   },
   palette: {
     primary: {
-      main: "#9147ff",
+      main: "#1976d2",
     },
     text: {
       primary: "#f6f8fc",

@@ -36,7 +36,7 @@ export const LigthTheme = createTheme({
   },
   palette: {
     primary: {
-      main: "#9147ff",
+      main: "#1976d2",
     },
     text: {
       primary: "#1c1c1c",
