@@ -166,7 +166,7 @@ export function AgendaView() {
             >
               <></>
             </BoxApp>
-            <TextApp titulo="Bloqueada" />
+            <TextApp titulo="Data Bloqueada" />
           </BoxApp>
         </BoxApp>
       </BoxApp>
