@@ -16,7 +16,7 @@ import {
   StatusAgendaPescariaColor,
 } from "@/types/agenda-pescaria";
 import { IHome } from "@/types/home";
-import { obterHorarioDaData } from "@/utils/format-date";
+import { formatDate, obterHorarioDaData } from "@/utils/format-date";
 import { CardChartHomeView } from "@/views/home/card-chart-home-view";
 import { useEffect, useState } from "react";
 
@@ -97,7 +97,7 @@ export default function Page() {
                     icon={listaDeIcones.pescaria}
                   />
                   <TextApp
-                    titulo="Pescarias de Hoje"
+                    titulo="Agenda"
                     fontWeight={600}
                     fontSize="1.2rem"
                     color="primary"
@@ -107,7 +107,14 @@ export default function Page() {
                   <TextApp titulo="Nenhuma pescaria agendada para hoje." />
                 ) : (
                   <>
-                    {home.agendaDeHoje.map((agenda) => {
+                    <TextApp
+                      fontWeight={600}
+                      color="primary"
+                      titulo={`Hoje: ${
+                        formatDate(home.agendaDeHoje[0].dataDeAgendamento) ?? ""
+                      }`}
+                    />
+                    {home.agendaDeHoje.map((agenda, index) => {
                       const status = StatusAgendaPescariaColor[agenda.status];
                       const statusDescricao =
                         opcoesStatusAgendaPescaria.find(
@@ -155,7 +162,78 @@ export default function Page() {
                               titulo={`Final: ${agenda.horaFinal ?? ""}`}
                             />
                           </BoxApp>
-                          <DividerApp width="100%" />
+                          {index < home.agendaDeHoje.length - 1 && (
+                            <DividerApp width="100%" />
+                          )}
+                        </BoxApp>
+                      );
+                    })}
+                  </>
+                )}
+                <DividerApp width="100%" />
+                {home.agendaDeAmanha.length === 0 ? (
+                  <TextApp titulo="Nenhuma pescaria agendada para amanhã." />
+                ) : (
+                  <>
+                    <TextApp
+                      fontWeight={600}
+                      color="primary"
+                      titulo={`Amanhã: ${
+                        formatDate(home.agendaDeAmanha[0].dataDeAgendamento) ??
+                        ""
+                      }`}
+                    />
+                    {home.agendaDeAmanha.map((agenda, index) => {
+                      const status = StatusAgendaPescariaColor[agenda.status];
+                      const statusDescricao =
+                        opcoesStatusAgendaPescaria.find(
+                          (x) => x.id === agenda.status
+                        )?.descricao || "";
+                      return (
+                        <BoxApp
+                          key={agenda.id}
+                          display="flex"
+                          gap="0.5rem"
+                          alignItems="center"
+                          flexDirection="column"
+                          width="100%"
+                        >
+                          <BoxApp
+                            display="flex"
+                            gap="0.5rem"
+                            alignItems="center"
+                            width="100%"
+                          >
+                            <TextApp titulo={`${agenda.pescaria.titulo}: `} />
+                            <BoxApp
+                              backgroundColor={status}
+                              padding="0.1rem"
+                              borderRadius={borderRadius}
+                              width="100px"
+                              textAlign="center"
+                            >
+                              <TextApp
+                                color="white"
+                                titulo={`${statusDescricao}`}
+                              />
+                            </BoxApp>
+                          </BoxApp>
+                          <BoxApp
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="start"
+                            width="100%"
+                          >
+                            <TextApp
+                              titulo={`Início: ${agenda.horaInicial ?? ""}`}
+                            />
+                            <TextApp
+                              titulo={`Final: ${agenda.horaFinal ?? ""}`}
+                            />
+                          </BoxApp>
+                          {index < home.agendaDeAmanha.length - 1 && (
+                            <DividerApp width="100%" />
+                          )}
                         </BoxApp>
                       );
                     })}

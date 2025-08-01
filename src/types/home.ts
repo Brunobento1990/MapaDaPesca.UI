@@ -6,4 +6,5 @@ export interface IHome {
   informacoesDoMar?: IInformacoesDoMar;
   clima?: IClima;
   agendaDeHoje: IAgendaPescaria[];
+  agendaDeAmanha: IAgendaPescaria[];
 }
