@@ -149,7 +149,7 @@ export default function Page() {
                             width="100%"
                           >
                             <TextApp
-                              titulo={`Início: ${agenda.horaInicio ?? ""}`}
+                              titulo={`Início: ${agenda.horaInicial ?? ""}`}
                             />
                             <TextApp
                               titulo={`Final: ${agenda.horaFinal ?? ""}`}
