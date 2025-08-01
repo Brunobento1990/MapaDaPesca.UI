@@ -138,6 +138,7 @@ export function ModalFatura(props: ModalFaturaProps) {
             onChange={form.onChange}
             error={form.error("dataDeVencimento")}
             helperText={form.helperText("dataDeVencimento")}
+            readonly={form.values.quitada}
           />
           <FormItemRow xs={12} sm={6}>
             <InputApp
@@ -150,6 +151,7 @@ export function ModalFatura(props: ModalFaturaProps) {
               helperText={form.helperText("valor")}
               id="valor"
               onChange={form.onChange}
+              readonly={form.values.quitada}
             />
           </FormItemRow>
         </FormRow>
@@ -184,6 +186,7 @@ export function ModalFatura(props: ModalFaturaProps) {
               id="descricao"
               maxLength={255}
               onChange={form.onChange}
+              readonly={form.values.quitada}
             />
           </FormItemRow>
         </FormRow>
