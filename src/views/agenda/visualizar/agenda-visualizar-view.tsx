@@ -25,9 +25,11 @@ import { formatDate } from "@/utils/format-date";
 import { removerItemDeArrayPorIndex } from "@/utils/remover-item-array";
 import { useEffect, useState } from "react";
 import { ModalReagendar } from "./modal-reagendar";
+import { ModalFatura } from "./modal-fatura";
 
 export function AgendaVisualizarView() {
   const [open, setOpen] = useState(false);
+  const [openModalFatura, setOpenModalFatura] = useState(false);
   const { obterPorId, editarPescaria } = useAgendaApi();
   const { resolveUploadImagem, recortarBase64 } = useArquivo();
   const { navigate, params } = useNavigateApp();
@@ -105,7 +107,12 @@ export function AgendaVisualizarView() {
       urlVoltar={rotasApp.agenda}
       footer={{
         children: (
-          <BoxApp>
+          <BoxApp display="flex" gap="1rem">
+            <ButtonApp
+              onClick={() => setOpenModalFatura(true)}
+              variant="outlined"
+              title="Fatura"
+            />
             <ButtonApp
               onClick={() => setOpen(true)}
               variant="outlined"
@@ -124,6 +131,11 @@ export function AgendaVisualizarView() {
             form.setValue(agenda);
           }
         }}
+      />
+      <ModalFatura
+        open={openModalFatura}
+        close={() => setOpenModalFatura(false)}
+        agendaPescariaId={form.values.id}
       />
       <FormRow>
         <FormItemRow sm={6} xs={12}>

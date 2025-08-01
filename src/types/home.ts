@@ -7,4 +7,13 @@ export interface IHome {
   clima?: IClima;
   agendaDeHoje: IAgendaPescaria[];
   agendaDeAmanha: IAgendaPescaria[];
+  fatura?: IFaturaHome;
+}
+
+export interface IFaturaHome {
+  mes: number;
+  ano: number;
+  valorTotal: number;
+  valorAReceber?: number;
+  valorRecebido?: number;
 }

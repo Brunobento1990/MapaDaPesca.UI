@@ -17,6 +17,7 @@ import {
 } from "@/types/agenda-pescaria";
 import { IHome } from "@/types/home";
 import { formatDate, obterHorarioDaData } from "@/utils/format-date";
+import { formatMoney } from "@/utils/format-money";
 import { CardChartHomeView } from "@/views/home/card-chart-home-view";
 import { useEffect, useState } from "react";
 
@@ -56,8 +57,8 @@ export default function Page() {
       >
         {obter.loading && <LoadingApp />}
         <GridApp container spacing={2}>
-          {home?.agendaDeHoje && (
-            <GridApp item xs={12} width="100%" sm={12} md={12}>
+          <GridApp item xs={12} width="100%" sm={6}>
+            {home?.agendaDeHoje && (
               <BoxApp
                 boxShadow={shadow}
                 borderRadius={borderRadius}
@@ -240,10 +241,71 @@ export default function Page() {
                   </>
                 )}
               </BoxApp>
-            </GridApp>
-          )}
-          <GridApp item xs={12} width="100%" sm={12} md={12}>
-            <></>
+            )}
+          </GridApp>
+          <GridApp item xs={12} width="100%" sm={6}>
+            {home?.fatura && (
+              <BoxApp
+                boxShadow={shadow}
+                borderRadius={borderRadius}
+                overflowy="auto"
+                width="100%"
+                height="100%"
+                padding="1rem"
+                display="flex"
+                alignItems="start"
+                flexDirection="column"
+                gap="1rem"
+                backgroundColor={backgroundColor.card}
+              >
+                <TextApp
+                  fontSize="1.2rem"
+                  fontWeight={600}
+                  titulo="Faturamento do mês"
+                  color="primary"
+                />
+                <BoxApp width="100%">
+                  <BoxApp
+                    display="flex"
+                    gap="0.5rem"
+                    justifyContent="space-between"
+                  >
+                    <TextApp fontWeight={600} titulo={`Recebido:`} />
+                    <TextApp
+                      fontWeight={600}
+                      color="success"
+                      titulo={`${formatMoney(home.fatura.valorRecebido)}`}
+                    />
+                  </BoxApp>
+                  <DividerApp width="100%" />
+                  <BoxApp
+                    display="flex"
+                    gap="0.5rem"
+                    justifyContent="space-between"
+                  >
+                    <TextApp fontWeight={600} titulo={`A receber:`} />
+                    <TextApp
+                      fontWeight={600}
+                      color="success"
+                      titulo={`${formatMoney(home.fatura.valorAReceber)}`}
+                    />
+                  </BoxApp>
+                  <DividerApp width="100%" />
+                  <BoxApp
+                    display="flex"
+                    gap="0.5rem"
+                    justifyContent="space-between"
+                  >
+                    <TextApp fontWeight={600} titulo={`Total:`} />
+                    <TextApp
+                      fontWeight={600}
+                      color="success"
+                      titulo={`${formatMoney(home.fatura.valorTotal)}`}
+                    />
+                  </BoxApp>
+                </BoxApp>
+              </BoxApp>
+            )}
           </GridApp>
         </GridApp>
         <BoxApp flexGrow={1} width="100%">
