@@ -24,7 +24,7 @@ interface ModalAgendamentoProps {
 }
 
 export function ModalAgendamento(props: ModalAgendamentoProps) {
-  const { agendarPescaria, editarPescaria } = useAgendaApi();
+  const { agendarPescaria } = useAgendaApi();
 
   const form = useFormikAdapter<IAgendarPescaria>({
     onSubmit: agendar,
@@ -65,7 +65,7 @@ export function ModalAgendamento(props: ModalAgendamentoProps) {
         submit={form.onSubmit}
         heigth="calc(100vh - 200px)"
         textoButton="Agendar"
-        loading={agendarPescaria.loading || editarPescaria.loading}
+        loading={agendarPescaria.loading}
       >
         <FormRow>
           <FormItemRow sm={6} xs={12}>

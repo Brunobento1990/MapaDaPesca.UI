@@ -19,6 +19,7 @@ import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
 import { useNavigateApp } from "@/hooks/use-navigate-app";
 import { rotasApp } from "@/config/rotas-app";
 
+const formatTwoDigits = (value: any) => String(value).padStart(2, "0");
 const corDataBloqueada = "#ffa963";
 
 export function AgendaView() {
@@ -173,8 +174,16 @@ export function AgendaView() {
           localizer={localizer}
           events={agenda.map((item: any) => {
             return {
-              start: new Date(`${item.ano}-${item.mes}-${item.dia}T00:00:00`),
-              end: new Date(`${item.ano}-${item.mes}-${item.dia}T00:00:00`),
+              start: new Date(
+                `${item.ano}-${formatTwoDigits(item.mes)}-${formatTwoDigits(
+                  item.dia
+                )}T00:00:00`
+              ),
+              end: new Date(
+                `${item.ano}-${formatTwoDigits(item.mes)}-${formatTwoDigits(
+                  item.dia
+                )}T00:00:00`
+              ),
               title: item.titulo ?? (item.pescaria?.titulo || "Pescaria"),
               status: item.status,
               agenda: item,

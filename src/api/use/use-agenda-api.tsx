@@ -78,7 +78,7 @@ export function useAgendaApi() {
   return {
     agendarPescaria: {
       fetch: agendarPescaria,
-      loading: apiAgendar.status === tipoStatusRequisicao.loadin,
+      loading: apiAgendar.status === tipoStatusRequisicao.loading,
     },
     agendaDoMes: {
       fetch: agendaDoMes,
