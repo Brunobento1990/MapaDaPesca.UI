@@ -46,7 +46,7 @@ export function TableIndex(props: tableProps) {
     method: props.metodo ?? "GET",
     url: props.url,
     naoRenderizarResposta: true,
-    statusInicial: tipoStatusRequisicao.loading,
+    statusInicial: tipoStatusRequisicao.loading as any,
   });
 
   async function refresh(searchP?: string) {

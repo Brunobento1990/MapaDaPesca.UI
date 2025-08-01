@@ -14,13 +14,13 @@ export function useGuiaDePescaApi() {
   const apiConfirmarConta = useApi({
     method: "PUT",
     url: guiaDePescaRotasApi.confirmarConta,
-    statusInicial: tipoStatusRequisicao.loading,
+    statusInicial: tipoStatusRequisicao.loading as any,
   });
 
   const apiMinhaConta = useApi({
     method: "GET",
     url: guiaDePescaRotasApi.minhaConta,
-    statusInicial: tipoStatusRequisicao.loading,
+    statusInicial: tipoStatusRequisicao.loading as any,
   });
 
   const apiEsqueceSenha = useApi({

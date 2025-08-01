@@ -6,7 +6,7 @@ export function useHomeApi() {
   const api = useApi({
     method: "GET",
     url: homeRotasApi.home,
-    statusInicial: tipoStatusRequisicao.loading,
+    statusInicial: tipoStatusRequisicao.loading as any,
   });
 
   async function obter(
