@@ -3,6 +3,8 @@
 import { useFormikAdapter } from "@/adapters/formik-adapters";
 import { pescariaRotasApi } from "@/api/rotas/pescaria-rotas-api";
 import { useAgendaApi } from "@/api/use/use-agenda-api";
+import { BoxApp } from "@/component/box/box-app";
+import { ButtonApp } from "@/component/button/button-app";
 import { DropDownApp } from "@/component/dropdown/drop-down-app";
 import { DropDownAutoFetchApp } from "@/component/dropdown/drop-down-auto-fetch-app";
 import { FormApp } from "@/component/form/form-app";
@@ -21,9 +23,11 @@ import {
 } from "@/types/agenda-pescaria";
 import { formatDate } from "@/utils/format-date";
 import { removerItemDeArrayPorIndex } from "@/utils/remover-item-array";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ModalReagendar } from "./modal-reagendar";
 
 export function AgendaVisualizarView() {
+  const [open, setOpen] = useState(false);
   const { obterPorId, editarPescaria } = useAgendaApi();
   const { resolveUploadImagem, recortarBase64 } = useArquivo();
   const { navigate, params } = useNavigateApp();
@@ -99,7 +103,28 @@ export function AgendaVisualizarView() {
       }`}
       submit={form.onSubmit}
       urlVoltar={rotasApp.agenda}
+      footer={{
+        children: (
+          <BoxApp>
+            <ButtonApp
+              onClick={() => setOpen(true)}
+              variant="outlined"
+              title="Reagendar"
+            />
+          </BoxApp>
+        ),
+      }}
     >
+      <ModalReagendar
+        id={form.values.id}
+        open={open}
+        onClose={(agenda) => {
+          setOpen(false);
+          if (agenda) {
+            form.setValue(agenda);
+          }
+        }}
+      />
       <FormRow>
         <FormItemRow sm={6} xs={12}>
           <DropDownAutoFetchApp

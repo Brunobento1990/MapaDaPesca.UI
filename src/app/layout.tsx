@@ -6,6 +6,8 @@ import { GuiaDePescaProvider } from "@/contexts/guia-pe-pesca-context";
 import { GeoLocalizacaoProvider } from "@/contexts/geolocalizacao-context";
 import { useModal } from "@/component/modal/use-modal";
 import { AppThemeProvider } from "@/contexts/theme-context";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 export default function RootLayout({
   children,
@@ -31,13 +33,18 @@ export default function RootLayout({
       </head>
       <AppThemeProvider>
         <body>
-          <GeoLocalizacaoProvider>
-            <GuiaDePescaProvider>
-              <Snack />
-              <Modal />
-              {children}
-            </GuiaDePescaProvider>
-          </GeoLocalizacaoProvider>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            adapterLocale="pt-br"
+          >
+            <GeoLocalizacaoProvider>
+              <GuiaDePescaProvider>
+                <Snack />
+                <Modal />
+                {children}
+              </GuiaDePescaProvider>
+            </GeoLocalizacaoProvider>
+          </LocalizationProvider>
         </body>
       </AppThemeProvider>
     </html>

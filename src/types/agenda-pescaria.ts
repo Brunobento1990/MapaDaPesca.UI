@@ -63,7 +63,12 @@ export interface IGaleriaAgendamento {
   url: string;
 }
 
-export interface IAgendaResponse{
+export interface IAgendaResponse {
   agenda: IAgendaPescaria[];
   agendaBloqueada: IBloqueioDataPescaria[];
+}
+
+export interface IReagendarPescaria {
+  id: string;
+  dataDeAgendamento: string;
 }

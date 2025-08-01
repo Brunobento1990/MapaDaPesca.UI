@@ -46,6 +46,7 @@ export interface InputAppProps {
   className?: string;
   maxWidth?: string;
   shrink?: boolean;
+  onClose?: () => void;
 }
 
 export function InputApp(props: InputAppProps) {

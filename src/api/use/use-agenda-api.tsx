@@ -4,6 +4,7 @@ import {
   IAgendaPescaria,
   IAgendaResponse,
   IAgendarPescaria,
+  IReagendarPescaria,
 } from "@/types/agenda-pescaria";
 
 export function useAgendaApi() {
@@ -17,10 +18,14 @@ export function useAgendaApi() {
     method: "PUT",
   });
 
+  const apiReagendarPescaria = useApi({
+    url: agendaRotasApi.reagendar,
+    method: "PUT",
+  });
+
   const apiAgendaDoMes = useApi({
     url: agendaRotasApi.agendaDoMes,
     method: "GET",
-    statusInicial: tipoStatusRequisicao.loading,
   });
 
   const apiObterAgenda = useApi({
@@ -61,6 +66,15 @@ export function useAgendaApi() {
     });
   }
 
+  async function reagendarPescaria(
+    body: IReagendarPescaria
+  ): Promise<IAgendaPescaria | undefined> {
+    return apiReagendarPescaria.action({
+      body,
+      message: "Pescaria reagendada com sucesso!",
+    });
+  }
+
   return {
     agendarPescaria: {
       fetch: agendarPescaria,
@@ -77,6 +91,10 @@ export function useAgendaApi() {
     editarPescaria: {
       fetch: editarAgendaPescaria,
       loading: apiEditarPescaria.status === tipoStatusRequisicao.loading,
+    },
+    reagendarPescaria: {
+      fetch: reagendarPescaria,
+      loading: apiReagendarPescaria.status === tipoStatusRequisicao.loading,
     },
   };
 }
