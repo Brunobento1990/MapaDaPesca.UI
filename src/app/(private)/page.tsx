@@ -16,6 +16,8 @@ import {
   StatusAgendaPescariaColor,
 } from "@/types/agenda-pescaria";
 import { IHome } from "@/types/home";
+import { Card, CardContent, Typography } from "@mui/material";
+import { LineChart } from "@mui/x-charts/LineChart";
 import { formatDate, obterHorarioDaData } from "@/utils/format-date";
 import { formatMoney } from "@/utils/format-money";
 import { CardChartHomeView } from "@/views/home/card-chart-home-view";
@@ -27,6 +29,9 @@ export default function Page() {
   const { borderRadius, shadow, cores, backgroundColor } = useThemeApp();
   const { guiaDePesca } = useContextGuiaDePesca();
   const { localizacao } = useContextGeoLocalizacao();
+
+  const labels = home?.transacoes?.map((d) => formatDate(d.data)) ?? [];
+  const valores = home?.transacoes?.map((d) => d.valor) ?? [];
 
   async function init() {
     if (localizacao && !home) {
@@ -308,7 +313,20 @@ export default function Page() {
             )}
           </GridApp>
         </GridApp>
-        <GraficoReceitas dados={home?.transacoes ?? []} />
+        <Card sx={{ width: "100%", padding: 2 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Recebimentos Diários
+            </Typography>
+
+            <LineChart
+              xAxis={[{ scaleType: "point", data: labels }]}
+              series={[{ data: valores, label: "R$ Recebido" }]}
+              height={300}
+              margin={{ left: 10, right: 40 }}
+            />
+          </CardContent>
+        </Card>
         <BoxApp flexGrow={1} width="100%">
           <GridApp container spacing={2}>
             <GridApp width="100%" item xs={12} sm={6}>
@@ -454,34 +472,5 @@ export default function Page() {
         </BoxApp>
       </BoxApp>
     </BoxApp>
-  );
-}
-
-import { Card, CardContent, Typography } from "@mui/material";
-import { LineChart } from "@mui/x-charts/LineChart";
-
-interface GraficoReceitasProps {
-  dados: any[];
-}
-
-export function GraficoReceitas({ dados }: GraficoReceitasProps) {
-  const labels = dados.map((d) => formatDate(d.data));
-  const valores = dados.map((d) => d.valor);
-
-  return (
-    <Card sx={{ width: "100%", padding: 2 }}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Recebimentos Diários
-        </Typography>
-
-        <LineChart
-          xAxis={[{ scaleType: "point", data: labels }]}
-          series={[{ data: valores, label: "R$ Recebido" }]}
-          height={300}
-          margin={{ left: 10, right: 40 }}
-        />
-      </CardContent>
-    </Card>
   );
 }
