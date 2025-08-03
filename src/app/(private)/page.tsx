@@ -308,6 +308,7 @@ export default function Page() {
             )}
           </GridApp>
         </GridApp>
+        <GraficoReceitas dados={home?.transacoes ?? []} />
         <BoxApp flexGrow={1} width="100%">
           <GridApp container spacing={2}>
             <GridApp width="100%" item xs={12} sm={6}>
@@ -453,5 +454,34 @@ export default function Page() {
         </BoxApp>
       </BoxApp>
     </BoxApp>
+  );
+}
+
+import { Card, CardContent, Typography } from "@mui/material";
+import { LineChart } from "@mui/x-charts/LineChart";
+
+interface GraficoReceitasProps {
+  dados: any[];
+}
+
+export function GraficoReceitas({ dados }: GraficoReceitasProps) {
+  const labels = dados.map((d) => formatDate(d.data));
+  const valores = dados.map((d) => d.valor);
+
+  return (
+    <Card sx={{ width: "100%", padding: 2 }}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Recebimentos Diários
+        </Typography>
+
+        <LineChart
+          xAxis={[{ scaleType: "point", data: labels }]}
+          series={[{ data: valores, label: "R$ Recebido" }]}
+          height={300}
+          margin={{ left: 10, right: 40 }}
+        />
+      </CardContent>
+    </Card>
   );
 }

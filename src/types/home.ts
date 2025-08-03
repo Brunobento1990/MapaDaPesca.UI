@@ -8,6 +8,7 @@ export interface IHome {
   agendaDeHoje: IAgendaPescaria[];
   agendaDeAmanha: IAgendaPescaria[];
   fatura?: IFaturaHome;
+  transacoes: any[];
 }
 
 export interface IFaturaHome {
