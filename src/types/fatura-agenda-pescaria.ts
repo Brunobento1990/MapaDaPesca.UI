@@ -26,6 +26,11 @@ export interface IPagarFatura {
   meioDePagamento: MeioDePagamento;
 }
 
+export interface IEstornarFatura {
+  id: string;
+  descricao?: string;
+}
+
 export type TipoTransacao = 1 | 2; // 1: Entrada, 2: Saída
 export type MeioDePagamento = 1 | 2 | 3 | 4 | 5 | 6; // 1: Dinheiro, 2: Pix, 3: CartãoCredito, 4: CartãoDebito, 5: Transferencia, 6: Boleto
 

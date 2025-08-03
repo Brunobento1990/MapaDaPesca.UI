@@ -93,6 +93,7 @@ export function ModalFatura(props: ModalFaturaProps) {
       maxWidth="md"
     >
       <FormApp
+        readonly={form.values.quitada}
         textoButton={form.values.id ? "Faturar" : "Gerar fatura"}
         submit={form.onSubmit}
         heigth="calc(100vh - 250px)"

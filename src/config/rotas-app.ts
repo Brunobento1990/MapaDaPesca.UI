@@ -18,4 +18,8 @@ export const rotasApp = {
     editar: "/embarcacao/editar",
     visualizar: "/embarcacao/visualizar",
   },
+  fatura: {
+    paginacao: "/fatura",
+    editar: "/fatura/editar",
+  },
 };
