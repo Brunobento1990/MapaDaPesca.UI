@@ -19,4 +19,5 @@ export const listaDeIcones = {
   barco: "game-icons:fishing-boat",
   account: "mdi:account-cog-outline",
   financeiro: "tdesign:money",
+  galeria: "clarity:image-gallery-line",
 };

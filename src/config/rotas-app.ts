@@ -22,4 +22,7 @@ export const rotasApp = {
     paginacao: "/fatura",
     editar: "/fatura/editar",
   },
+  galeria: {
+    visualizar: "/galeria-de-trofeus",
+  },
 };

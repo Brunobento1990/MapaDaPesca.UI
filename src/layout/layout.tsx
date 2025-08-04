@@ -181,6 +181,16 @@ export default function Layout(props: propsLayout) {
                   <ListItemText primary="Financeiro" />
                 </ListItemButton>
               </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => navegar(rotasApp.galeria.visualizar)}
+                >
+                  <ListItemIcon>
+                    <IconApp icon={listaDeIcones.galeria} />
+                  </ListItemIcon>
+                  <ListItemText primary="Galeria de troféus" />
+                </ListItemButton>
+              </ListItem>
             </List>
           </BoxApp>
           <BoxApp
