@@ -48,7 +48,7 @@ export function GaleriaDeTrofeusView() {
   }
 
   async function excluirFoto(index: number) {
-    if (!index) {
+    if (index === undefined) {
       return;
     }
     const foto = galeria[index];
