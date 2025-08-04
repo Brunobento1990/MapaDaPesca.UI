@@ -9,6 +9,7 @@ export interface IHome {
   agendaDeAmanha: IAgendaPescaria[];
   fatura?: IFaturaHome;
   transacoes: any[];
+  variacaoMensalAgendamento?: IVariacaoMensalAgendamento;
 }
 
 export interface IFaturaHome {
@@ -17,4 +18,13 @@ export interface IFaturaHome {
   valorTotal: number;
   valorAReceber?: number;
   valorRecebido?: number;
+}
+
+export interface IVariacaoMensalAgendamento {
+  mes: string;
+  totalAnoAnterior: number;
+  totalAnoAtual: number;
+  porcentagem: number;
+  anoAtual: number;
+  anoAnterior: number;
 }

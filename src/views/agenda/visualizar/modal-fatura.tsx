@@ -139,7 +139,7 @@ export function ModalFatura(props: ModalFaturaProps) {
             onChange={form.onChange}
             error={form.error("dataDeVencimento")}
             helperText={form.helperText("dataDeVencimento")}
-            readonly={form.values.quitada}
+            readonly
           />
           <FormItemRow xs={12} sm={6}>
             <InputApp
@@ -203,6 +203,7 @@ export function ModalFatura(props: ModalFaturaProps) {
                   (x) => x.id === meioDePagamento
                 )}
                 onChange={(_, value) => setMeioDePagamento(value)}
+                readonly={form.values.quitada}
               />
             </FormItemRow>
           </FormRow>

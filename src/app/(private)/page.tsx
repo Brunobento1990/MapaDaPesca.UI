@@ -22,6 +22,7 @@ import { formatDate, obterHorarioDaData } from "@/utils/format-date";
 import { formatMoney } from "@/utils/format-money";
 import { CardChartHomeView } from "@/views/home/card-chart-home-view";
 import { useEffect, useState } from "react";
+import { VariacaoMensalAgendamentoView } from "@/views/home/variacao-mensal-agendamento-view";
 
 export default function Page() {
   const [home, setHome] = useState<IHome>();
@@ -255,7 +256,6 @@ export default function Page() {
                 borderRadius={borderRadius}
                 overflowy="auto"
                 width="100%"
-                height="100%"
                 padding="1rem"
                 display="flex"
                 alignItems="start"
@@ -313,20 +313,30 @@ export default function Page() {
             )}
           </GridApp>
         </GridApp>
-        <Card sx={{ width: "100%", padding: 2 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Recebimentos Diários
-            </Typography>
-
-            <LineChart
-              xAxis={[{ scaleType: "point", data: labels }]}
-              series={[{ data: valores, label: "R$ Recebido" }]}
-              height={300}
-              margin={{ left: 10, right: 40 }}
-            />
-          </CardContent>
-        </Card>
+        <BoxApp flexGrow={1}>
+          <GridApp container spacing={2}>
+            <GridApp xs={12} sm={9}>
+              <Card sx={{ width: "100%", padding: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Recebimentos Diários
+                  </Typography>
+                  <LineChart
+                    xAxis={[{ scaleType: "point", data: labels }]}
+                    series={[{ data: valores, label: "R$ Recebido" }]}
+                    height={300}
+                    margin={{ left: 10, right: 40 }}
+                  />
+                </CardContent>
+              </Card>
+            </GridApp>
+            <GridApp xs={12} sm={3}>
+              <VariacaoMensalAgendamentoView
+                variacaoMensalAgendamento={home?.variacaoMensalAgendamento}
+              />
+            </GridApp>
+          </GridApp>
+        </BoxApp>
         <BoxApp flexGrow={1} width="100%">
           <GridApp container spacing={2}>
             <GridApp width="100%" item xs={12} sm={6}>
