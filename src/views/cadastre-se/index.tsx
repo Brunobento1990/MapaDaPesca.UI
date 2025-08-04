@@ -225,6 +225,12 @@ export function CadastreSeView() {
               onClick={() => setOpen(true)}
             />
           </BoxApp>
+          <BoxApp display="flex" justifyContent="center" alignItems="center">
+            <TextApp
+              fontSize="0.60rem"
+              titulo="Ao concluir seu cadastro como guia de pesca, você concorda com o pagamento de uma mensalidade fixa de R$ 20,00, cobrada a partir do 5º dia útil de cada mês."
+            />
+          </BoxApp>
           <ButtonApp
             loading={cadastrar.loading}
             title="Cadastrar"

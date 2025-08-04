@@ -58,6 +58,14 @@ export function ModalTermos({ open, onClose }: ModalTermosProps) {
       <BoxApp>
         <TextApp titulo="8.1 Ao criar uma conta, você confirma que leu, compreendeu e aceita todos os termos acima." />
       </BoxApp>
+      <TextApp fontWeight={600} titulo="9. Pagamento e Mensalidade" />
+      <BoxApp>
+        <TextApp titulo="9.1 A plataforma Mapa da Pesca cobra uma mensalidade fixa de R$ 20,00 (vinte reais) para manutenção da conta de guia de pesca." />
+        <TextApp titulo="9.2 A cobrança será realizada a partir do 5º (quinto) dia útil de cada mês, referente ao uso da plataforma no mês corrente." />
+        <TextApp titulo="9.3 Em caso de atraso superior a 5 (cinco) dias corridos após a data de vencimento, será aplicada uma multa de 5% (cinco por cento) sobre o valor da mensalidade." />
+        <TextApp titulo="9.4 A não regularização do pagamento poderá resultar na suspensão temporária ou permanente da conta, conforme avaliação da plataforma." />
+        <TextApp titulo="9.5 A mensalidade poderá ser reajustada a qualquer momento, respeitado o aviso prévio mínimo de 90 (noventa) dias, que será enviado ao e-mail cadastrado pelo guia de pesca." />
+      </BoxApp>
     </ModalChildren>
   );
 }
