@@ -20,4 +20,10 @@ export const listaDeIcones = {
   account: "mdi:account-cog-outline",
   financeiro: "tdesign:money",
   galeria: "clarity:image-gallery-line",
+  pessoas: "fluent-color:person-16",
+  dinheiro: "noto:money-bag",
+  whatsApp: "logos:whatsapp-icon",
+  motor: "line-md:engine-twotone",
+  motorEletrico: "streamline-ultimate:car-engine-11",
+  copiar: "streamline:copy-paste-remix",
 };

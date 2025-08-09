@@ -12,6 +12,13 @@ export interface IAgendarPescaria {
   horaFinal?: number;
   agendaPescariaId?: string;
   galeria?: IGaleriaAgendamento[];
+  fatura?: IFaturaAgendarPescaria;
+}
+
+interface IFaturaAgendarPescaria {
+  valor?: number;
+  dataDeVencimento?: string;
+  valorDeEntrada?: number;
 }
 
 export type StatusAgendaPescariaEnum = 1 | 2 | 3 | 4;

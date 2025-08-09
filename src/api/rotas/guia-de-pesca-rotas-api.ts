@@ -5,4 +5,5 @@ export const guiaDePescaRotasApi = {
   recuperarSenha: "recuperar-senha-guia-de-pesca",
   minhaConta: "guia-de-pesca/minha-conta",
   editarMinhaConta: "guia-de-pesca/editar-minha-conta",
+  perfil: "guia-de-pesca/obter-perfil",
 };

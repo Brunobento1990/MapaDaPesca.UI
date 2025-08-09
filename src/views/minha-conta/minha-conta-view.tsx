@@ -16,9 +16,13 @@ import { FormItemRow } from "@/component/form/form-item-row";
 import { InputApp, MaskType } from "@/component/input/input-app";
 import { YupAdapter } from "@/adapters/yup-adapters";
 import { useContextGuiaDePesca } from "@/contexts/guia-pe-pesca-context";
+import { ButtonApp } from "@/component/button/button-app";
+import { copiaECola } from "@/utils/copiar";
+import { useSnackbar } from "@/component/snack-bar/use-snack-bar";
 
 export function MinhaContaView() {
   const { minhaConta, editarMinhaConta } = useGuiaDePescaApi();
+  const { show } = useSnackbar();
   const { resolveUploadImagem, recortarBase64 } = useArquivo();
   const { atualizarGuiaDePesca } = useContextGuiaDePesca();
   const form = useFormikAdapter<IGuiaDePesca>({
@@ -57,6 +61,15 @@ export function MinhaContaView() {
     }
   }
 
+  async function copiar() {
+    const resultado = await copiaECola(
+      `https://guia.mapadapesca.site/perfil/${form.values.id}`
+    );
+    if (resultado) {
+      show("Link copiado com sucesso!", "success");
+    }
+  }
+
   useEffect(() => {
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,6 +80,16 @@ export function MinhaContaView() {
       titulo="Minha Conta"
       loading={minhaConta.loading || editarMinhaConta.loading}
       submit={form.onSubmit}
+      footer={{
+        children: (
+          <ButtonApp
+            endIcon={listaDeIcones.copiar}
+            title="Copiar link perfil"
+            variant="outlined"
+            onClick={copiar}
+          />
+        ),
+      }}
     >
       <BoxApp
         display="flex"

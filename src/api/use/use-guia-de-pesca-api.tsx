@@ -23,6 +23,12 @@ export function useGuiaDePescaApi() {
     statusInicial: tipoStatusRequisicao.loading as any,
   });
 
+  const apiPerfil = useApi({
+    method: "GET",
+    url: guiaDePescaRotasApi.perfil,
+    statusInicial: tipoStatusRequisicao.loading as any,
+  });
+
   const apiEsqueceSenha = useApi({
     method: "PUT",
     url: guiaDePescaRotasApi.esqueceSenha,
@@ -80,6 +86,12 @@ export function useGuiaDePescaApi() {
     });
   };
 
+  const perfil = async (id: string): Promise<IGuiaDePesca | undefined> => {
+    return apiPerfil.action({
+      urlParams: `?id=${id}`,
+    });
+  };
+
   return {
     cadastrar: {
       fetch: cadastrar,
@@ -104,6 +116,10 @@ export function useGuiaDePescaApi() {
     editarMinhaConta: {
       fetch: editarMinhaConta,
       loading: apiEditarMinhaConta.status === tipoStatusRequisicao.loading,
+    },
+    perfil: {
+      fetch: perfil,
+      loading: apiPerfil.status === tipoStatusRequisicao.loading,
     },
   };
 }

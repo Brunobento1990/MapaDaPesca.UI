@@ -11,6 +11,7 @@ interface GaleriaAppProps {
   excluir?: (index: number) => void;
   readonly?: boolean;
   imagens: ITipoGaleira[];
+  height?: string | number;
 }
 
 interface ITipoGaleira {
@@ -25,7 +26,7 @@ export default function GaleriaApp(props: GaleriaAppProps) {
     <Box
       sx={{
         width: "100%",
-        height: 450,
+        height: props.height ?? 450,
         overflowY: "scroll",
         marginTop: "1rem",
       }}
