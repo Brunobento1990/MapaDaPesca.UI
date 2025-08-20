@@ -13,6 +13,11 @@ export function useAgendaApi() {
     method: "POST",
   });
 
+  const apiExcluirAgenda = useApi({
+    url: agendaRotasApi.excluir,
+    method: "DELETE",
+  });
+
   const apiEditarPescaria = useApi({
     url: agendaRotasApi.editar,
     method: "PUT",
@@ -57,6 +62,12 @@ export function useAgendaApi() {
     });
   }
 
+  async function excluir(id: string): Promise<any> {
+    return apiExcluirAgenda.action({
+      urlParams: `?id=${id}`,
+    });
+  }
+
   async function agendaDoMes(
     mes: string,
     ano: string
@@ -95,6 +106,10 @@ export function useAgendaApi() {
     reagendarPescaria: {
       fetch: reagendarPescaria,
       loading: apiReagendarPescaria.status === tipoStatusRequisicao.loading,
+    },
+    excluirPescaria: {
+      fetch: excluir,
+      loading: apiExcluirAgenda.status === tipoStatusRequisicao.loading,
     },
   };
 }

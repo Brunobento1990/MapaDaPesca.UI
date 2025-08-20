@@ -4,4 +4,5 @@ export const agendaRotasApi = {
   obterPorId: "/agenda-pescaria/obter-por-id",
   editar: "/agenda-pescaria/editar-agendamento",
   reagendar: "/agenda-pescaria/reagendar",
+  excluir: "/agenda-pescaria/excluir"
 };

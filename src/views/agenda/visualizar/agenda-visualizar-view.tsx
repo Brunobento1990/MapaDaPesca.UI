@@ -25,12 +25,10 @@ import { formatDate } from "@/utils/format-date";
 import { removerItemDeArrayPorIndex } from "@/utils/remover-item-array";
 import { useEffect, useState } from "react";
 import { ModalReagendar } from "./modal-reagendar";
-import { ModalFatura } from "./modal-fatura";
 
 export function AgendaVisualizarView() {
   const [open, setOpen] = useState(false);
-  const [openModalFatura, setOpenModalFatura] = useState(false);
-  const { obterPorId, editarPescaria } = useAgendaApi();
+  const { obterPorId, editarPescaria, excluirPescaria } = useAgendaApi();
   const { resolveUploadImagem, recortarBase64 } = useArquivo();
   const { navigate, params } = useNavigateApp();
   const form = useFormikAdapter<IAgendaPescaria>({
@@ -93,6 +91,16 @@ export function AgendaVisualizarView() {
     });
   }
 
+  async function excluir(){
+    if(!form.values.id){
+      return;
+    }
+    const response = await excluirPescaria.fetch(form.values.id);
+    if (response) {
+      navigate(rotasApp.agenda);
+    }
+  }
+
   useEffect(() => {
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,11 +115,13 @@ export function AgendaVisualizarView() {
       urlVoltar={rotasApp.agenda}
       footer={{
         children: (
-          <BoxApp display="flex" gap="1rem">
+          <BoxApp display="flex" gap="1rem" overflowy="auto">
             <ButtonApp
-              onClick={() => setOpenModalFatura(true)}
+              onClick={excluir}
               variant="outlined"
-              title="Fatura"
+              title="Excluir"
+              color="error"
+              loading={excluirPescaria.loading}
             />
             <ButtonApp
               onClick={() => setOpen(true)}
@@ -131,11 +141,6 @@ export function AgendaVisualizarView() {
             form.setValue(agenda);
           }
         }}
-      />
-      <ModalFatura
-        open={openModalFatura}
-        close={() => setOpenModalFatura(false)}
-        agendaPescariaId={form.values.id}
       />
       <FormRow>
         <FormItemRow sm={6} xs={12}>

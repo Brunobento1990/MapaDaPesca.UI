@@ -23,6 +23,7 @@ export interface propsButton {
   endIcon?: string;
   coricon?: string;
   fontSize?: string;
+  color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning";
 }
 
 export function ButtonApp(props: propsButton) {
@@ -35,6 +36,7 @@ export function ButtonApp(props: propsButton) {
           props.onClick();
         }
       }}
+      color={props.color}
       loading={props.loading}
       loadingIndicator={
         <BoxApp
